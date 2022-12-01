@@ -51,6 +51,37 @@ public class HomePageSteps {
 	List<String> chargers_ids = new ArrayList<>();
 
 	// Login
+	
+	public static boolean isInteger(String str) {
+
+		if(str==null)
+		{
+			return false;
+		}
+		int length = str.length();
+		
+		if(length==0){
+			return false;
+		}
+		int i=0;
+		if(str.charAt(0)=='-')
+		{
+			if(length==1)
+			{
+				return false;
+			}
+			i=1;
+		}
+
+	for(;i<length;i++){
+		char c = str.charAt(i);
+		if(c <'0' || c > '9'){
+			return false;
+		} 
+	}
+		return true;
+
+	}
 
 	@Given("^user is on login Page$")
 	public void user_is_on_login_Page() throws Throwable {
@@ -143,11 +174,14 @@ public class HomePageSteps {
 		if (chargePointSelectList.equalsIgnoreCase("wiem")) {
 			new Select(operations.GetchargePointSelectListId()).selectByValue("JSON;wiem;-");
 
-		}else if (chargePointSelectList.equalsIgnoreCase("wiem_pole")) {
+		} else if (chargePointSelectList.equalsIgnoreCase("wiem_pole")) {
 			new Select(operations.GetchargePointSelectListId()).selectByValue("JSON;wiem_pole;-");
 
-		}
+		} else if (chargePointSelectList.equalsIgnoreCase("wiem_pole_real")) {
+			new Select(operations.GetchargePointSelectListId()).selectByValue("JSON;wiem_pole_real;-");
 
+		}
+	
 	}
 
 	@And("^I click all charge point$")
@@ -258,10 +292,13 @@ public class HomePageSteps {
 
 						for (String charger_id : chargers_ids) {
 
-							System.out.println(charger_id);
+							//System.out.println(charger_id);
 
 							charger_Data = objectMapper.readTree(Utils.getReported(charger_id));
 							charger_locked_state = charger_Data.get("locked").asText();
+							
+							System.out.println(
+									"Current Connector: " + charger_id + " locked State : " + charger_locked_state);
 
 							if (charger_locked_state.equals(initState)) {
 								driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
@@ -278,6 +315,10 @@ public class HomePageSteps {
 					charger_Data = objectMapper
 							.readTree(Utils.getReported(chargers_ids.get(Integer.parseInt(connector_id) - 1)));
 					charger_locked_state = charger_Data.get("locked").asText();
+					
+					System.out.println(
+							"Current Connector: " + connector_id + " locked State : " + charger_locked_state);
+
 
 					if (charger_locked_state.equals(initState)) {
 
@@ -302,6 +343,9 @@ public class HomePageSteps {
 
 							charger_Data = objectMapper.readTree(Utils.getReported(charger_id));
 							charger_locked_state = charger_Data.get("locked").asText();
+							
+							System.out.println(
+									"Current Connector: " + charger_id + " locked State : " + charger_locked_state);
 
 							if (charger_locked_state.equals(initState)) {
 								driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
@@ -319,7 +363,10 @@ public class HomePageSteps {
 					charger_Data = objectMapper
 							.readTree(Utils.getReported(chargers_ids.get(Integer.parseInt(connector_id) - 1)));
 					charger_locked_state = charger_Data.get("locked").asText();
-
+					
+					System.out.println(
+							"Current Connector: " + connector_id + " locked State : " + charger_locked_state);
+					
 					if (charger_locked_state.equals(initState)) {
 
 						driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
@@ -445,8 +492,10 @@ public class HomePageSteps {
 		driver.close();
 
 	}
+	
+	
 
-	// *********************************************************
+// *********************************************************
 	// change configuration
 
 	@And("^I select Key Type '(.*)'$")
@@ -525,90 +574,142 @@ public class HomePageSteps {
 
 	@And("^I enter Value '(.*)'$")
 	public void enter_value(String value) throws InterruptedException {
-		
-		/*WebDriverWait wait = new WebDriverWait(driver, 10);
-		WebElement l = wait.until(ExpectedConditions.elementToBeClickable(By.id("confKeyList")));
-		l.click();
-		String keyList = l.getAttribute("value");*/
-		
-		Operations operations = new Operations(driver);
-		operations.GetvalueId().sendKeys(value);
 
-
-		
 		if (read_only.equals("false")) {
-			
+
 			if (Paramater_value.equals("true") || Paramater_value.equals("false")) {
 				if (value.equals("true") || value.equals("false")) {
 
 					System.out.println(key + " Entered Value Type is Correct (Boolean) ");
 
 				} else {
-					System.out.println(key+ " Entered Value Type is Wrong");
+					System.out.println(key + " Entered Value Type is Wrong");
 				}
 
-			}/*else  {
-				if (Paramater_value.subSequence(0, 5) != null || keyList.equals("BlinkRepeat") ) {
+			} else {
+				if (key.equals("BlinkRepeat")) {
 					
-					System.out.println(key + " Entered Value Type is Correct (on the correcte range ) ");
-				}else {
-					
-					System.out.println(key+ " Entered Value Type is Wrong");
+					if(isInteger(value))
+					{
+						if (Integer.parseInt(value) < 0 || Integer.parseInt(value) > 5) {
+							System.out.println(key + " Entered Value invalid Range ) ");
+
+						} else {
+							System.out.println(key + " Entered Value Type is Correct (on the correcte range 0 -> 5 ");
+
+						}
+					}else
+					{
+						System.out.println(key + " Entered Value Type is Wrong ) ");
+
 					}
+
+
+				} else if (key.equals("ClockAlignedDataInterval") || key.equals("HeartbeatInterval")
+						|| key.equals("MeterValueSampleInterval") || key.equals("MinimumStatusDuration")
+						|| key.equals("TransactionMessageRetryInterval") || key.equals("WebSocketPingInterval")) {
+					
+					if(isInteger(value))
+					{
+						if (Integer.parseInt(value) < 0 || Integer.parseInt(value) > 86400) {
+							System.out.println(key + " Entered Value invalid Range ");
+
+						} else {
+							System.out.println(
+									key + " Entered Value Type is Correct (on the correcte range 0 -> 86400 )");
+
+						}
+						
+					}else
+					{
+						System.out.println(key + " Entered Value Type is Wrong ) ");
+
+					}
+					
+
+				} else if (key.equals("ConnectionTimeOut")) {
+					
+
+					if(isInteger(value))
+					{
+						if (Integer.parseInt(value) < 0 || Integer.parseInt(value) > 120) {
+							System.out.println(key + " Entered Value invalid Range ");
+
+						} else {
+							System.out.println(key + " Entered Value Type is Correct (on the correcte range )");
+
+						}
+					}else
+					{
+						System.out.println(key + " Entered Value Type is Wrong ) ");
+
+					}
+
+					
+
+				} else if (key.equals("LightIntensity")) {
+					if(isInteger(value))
+					{
+						if (Integer.parseInt(value) < 0 || Integer.parseInt(value) > 100) {
+							System.out.println(key + " Entered Value invalid Range ");
+
+						} else {
+							System.out
+									.println(key + " Entered Value Type is Correct (on the correcte range  0 -> 100) ");
+
+						}
+					}else
+					{
+						System.out.println(key + " Entered Value Type is Wrong ) ");
+
+					}
+					
+
+				} else if (key.equals("MaxEnergyOnInvalidId")) {
+					if(isInteger(value))
+					{
+						if (Integer.parseInt(value) < 0 || Integer.parseInt(value) > 30000) {
+							System.out.println(key + " Entered Value invalid Range ");
+
+						} else {
+							System.out.println(
+									key + " Entered Value Type is Correct (on the correcte range 0 -> 30000 ) ");
+
+						}
+					}else
+					{
+						System.out.println(key + " Entered Value Type is Wrong ) ");
+
+					}
+					
+
+				} else if (key.equals("ResetRetries") || key.equals("TransactionMessageAttempts")) {
+					if(isInteger(value))
+					{
+						if (Integer.parseInt(value) < 0 || Integer.parseInt(value) > 30) {
+
+							System.out.println(key + " Entered Value invalid Range ");
+
+						} else {
+							System.out.println(key + " Entered Value Type is Correct (on the correcte range 0 -> 30 )");
+						}
+					}else
+					{
+						System.out.println(key + " Entered Value Type is Wrong ) ");
+
+					}
+					
 					
 				}
+			}
 		}
-			else  {
-				if (Paramater_value.subSequence(0, 86400) != null || keyList.equals("BlinkRepeat" ,"ClockAlignedDataInterval"," HeartbeatInterval" , "MeterValueSampleInterval", "MinimumStatusDuration" , "TransactionMessageRetryInterval" , "WebSocketPingInterval") ) {
-					
-					System.out.println(key + " Entered Value Type is Correct (on the correcte range ) ");
-				}else {
-					
-					System.out.println(key+ " Entered Value Type is Wrong");
-					
-				}
-			}else {
-					if (Paramater_value.subSequence(0, 30) != null || keyList.equals("TransactionMessageAttempts" , "ResetRetries") ) {
-						
-						System.out.println(key + " Entered Value Type is Correct (on the correcte range ) ");
-					}else {
-						
-						System.out.println(key+ " Entered Value Type is Wrong");
-						
-					}
-				}else {
-					if (Paramater_value.subSequence(0, 30000) != null || keyList.equals("MaxEnergyOnInvalidId") ) {
-						
-						System.out.println(key + " Entered Value Type is Correct (on the correcte range ) ");
-					}else {
-						
-						System.out.println(key+ " Entered Value Type is Wrong");
-						
-					}
-				}else {
-					if (Paramater_value.subSequence(0, 100) != null || keyList.equals("LightIntensity") ) {
-						
-						System.out.println(key + " Entered Value Type is Correct (on the correcte range ) ");
-					}else {
-						
-						System.out.println(key+ " Entered Value Type is Wrong");
-						
-					}
-				}else {
-					if (Paramater_value.subSequence(0, 120) != null || keyList.equals("ConnectionTimeOut") ) {
-						
-						System.out.println(key + " Entered Value Type is Correct (on the correcte range ) ");
-					}else {
-						
-						System.out.println(key+ " Entered Value Type is Wrong");
-						
-					}
-				}*/
-			
-			// else other values (int , string ....) 
-		}
-		
-	}
+
+		Operations operations = new Operations(driver);
+		operations.GetvalueId().sendKeys(value);
+
+	} 
+
+	// vérifier comma separated list
 
 	@And("^I enter Custom Configuration Key '(.*)'$")
 	public void enter_costum_config_key(String constumConfig) throws InterruptedException {
@@ -623,7 +724,6 @@ public class HomePageSteps {
 		Operations operations = new Operations(driver);
 		operations.GetchangeConfigButton().click();
 	}
-	
 
 	@And("^I click perform button change configuration$")
 	public void click_perform_button_change_configuration() throws InterruptedException {
@@ -634,16 +734,55 @@ public class HomePageSteps {
 
 	}
 
-	@Then("^User is on the task result Configuration$")
-	public void VerifyUserOnTaskResultConfiguration() throws InterruptedException {
+	@Then("^User is on the task result Transaction$")
+	public void VerifyUserOnTaskResultTransaction() throws InterruptedException {
 
 		WebDriverWait wait = new WebDriverWait(driver, 10);
 		Operations operations = new Operations(driver);
 		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 		Assert.assertTrue(operations.GetcpdExist());
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
-        
+		
+		List<WebElement> rows = driver.findElements(By.xpath("/html/body/div[1]/div[3]/div/table/tbody/tr"));
+		
+		for (WebElement row : rows) {
+			if (row.findElement(By.xpath("td[2]")).getText().equals("Accepted")) {
+				
+				System.out.println("Correct rslt : The result is Accepted");
+				
+				}else if (row.findElement(By.xpath("td[2]")).getText().equals("Rejected"))  {
+					
+					System.out.println("Incorrecte rslt : The result is Rejected");
+				}
+			}
+
 	}
+	
+	@Then("^User is on the task result after stop transaction$")
+	public void VerifyUserOnTaskResultAfterStop() throws InterruptedException {
+
+		WebDriverWait wait = new WebDriverWait(driver, 10);
+		Operations operations = new Operations(driver);
+		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+		Assert.assertTrue(operations.GetcpdExist());
+		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+		
+		List<WebElement> rows = driver.findElements(By.xpath("/html/body/div[1]/div[3]/div/table/tbody/tr"));
+		System.out.println("Table size :" + rows.size());
+		for (WebElement row : rows) {
+			if (row.findElement(By.xpath("td[2]")).getText().equals("Accepted")) {
+				
+				System.out.println("Correct rslt : The result is Accepted");
+				
+				}else if (row.findElement(By.xpath("td[2]")).getText().equals("Rejected"))  {
+					
+					System.out.println("Incorrecte rslt : The result is Rejected");
+				}
+			}
+
+		Thread.sleep(5000);
+	}
+	
 
 //**********************************************************************************************
 	// Get Diagnostics
@@ -709,6 +848,40 @@ public class HomePageSteps {
 
 //******************************************************************************************************************
 	// remote start transaction
+	
+	@And("^I click on all connector status$")
+	public void Select_All_Connector_Status() throws InterruptedException {
+		
+		
+	
+        Data_Management dataManagement = new Data_Management(driver);
+        dataManagement.GetConnectorStatusButton().click();
+        
+        
+        List<WebElement> rows = driver.findElements(By.xpath("//*[@id=\"connectorStatusTable\"]/tbody/tr[1]"));
+	
+		for (WebElement row : rows) {
+			if (row.findElement(By.xpath("td[4]")).getText().equals("Preparing")) {
+				
+				System.out.println("Preparing : 60s time out connection ");
+				
+				}else if (row.findElement(By.xpath("td[4]")).getText().equals("Charging"))  {
+					
+					System.out.println("Charging : the car already Charging ");
+				}else if (row.findElement(By.xpath("td[4]")).getText().equals("	Available"))  {
+					
+					System.out.println("Available : the connector is available to be PluggedIn ");
+				}else if (row.findElement(By.xpath("td[4]")).getText().equals("Unavailable"))  {
+					
+					System.out.println("Unavailable : Connector Unavailable");
+				}
+			}
+		Thread.sleep(62000);
+        
+	}
+
+	
+	
 
 	@And("^I select ConnectorId2 '(.*)'$")
 	public void Select_ConnectorId2(String connectorID2) throws InterruptedException {
@@ -748,13 +921,12 @@ public class HomePageSteps {
 
 	}
 
-	@And("^I select ID of the Active Transaction '(.*)'$")
-	public void Select_ID_Active_Transaction(String activeTransaction) throws InterruptedException {
-
+	@And("^I select ID of the Active Transaction$")
+	public void Select_ID_Active_Transaction() throws InterruptedException {
+		Thread.sleep(5000);
 		Operations operations = new Operations(driver);
-		if (activeTransaction.equalsIgnoreCase("")) {
-			new Select(operations.GettransactionId()).selectByValue("");
-		}
+
+		operations.GettransactionId().click();
 
 	}
 
@@ -765,19 +937,179 @@ public class HomePageSteps {
 		operations.GetremotestoptransactionButton().click();
 	}
 
-	@And("^I click remote start transaction perform button$")
-	public void click_remote_start_transaction_perform_button() throws InterruptedException {
+	@And("^I click remote start transaction perform button'(.*)'$")
+	public void click_remote_start_transaction_perform_button(String initState)
+			throws InterruptedException, JsonMappingException, JsonProcessingException, IOException {
+        
+		// JYLP6Y : TRYDAN
+		// JsonNode charger_Data_ =
+		// objectMapper.readTree(Utils.getReported(chargers_ids.get(i)));
+		JsonNode charge_state = objectMapper.readTree(Utils.GetCurrentStateCharge(chargers_ids.get(0)));
+		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+		
+		JsonNode charger_Data;
+		String charger_locked_state;
+	
 
+		String charge_state_variable = charge_state.get("charge_state").toString();
+		String charge_seconds = charge_state.get("seconds").toString();
+		
+		String charge_state_variable2 = charge_state_variable.replaceAll("^\"|\"$", "");
+		String charge_seconds2 = charge_seconds.replaceAll("^\"|\"$", "");
+		
+		
+		Thread.sleep(3000);
+		
+          System.out.println(
+				"Data before Start Remote Transaction: \n charge_state : " + charge_state_variable + "| seconds : " + charge_seconds);
+        
+        	  
+          Thread.sleep(3000);
+          if(isInteger(charge_state_variable2) && isInteger(charge_seconds2))
+          {
+
+      		if (Integer.parseInt(charge_state_variable2) == 0 ) {
+      			System.out.println("Current Connector Not Occupied");
+      		} 
+      		
+      		else if (Integer.parseInt(charge_state_variable2) == 1 && Integer.parseInt(charge_seconds2) == 0) {
+    			System.out.println("Current Connector Occupied And Not Charging");
+
+    		} else if (Integer.parseInt(charge_state_variable2) == 1 && Integer.parseInt(charge_seconds2) > 0) {
+
+    			System.out.println("Problem with charging seconds");
+    		}
+
+    		if (Integer.parseInt(charge_state_variable2) == 2 && Integer.parseInt(charge_seconds2) == 0) {
+    			System.out.println("Problem with charging");
+
+    		} else if (Integer.parseInt(charge_state_variable2) == 2 && Integer.parseInt(charge_seconds2) > 0) {
+
+    			System.out.println("Current Connector Occupied And Charging");
+    		}
+    		
+    		   
+          }else
+             {
+           	  System.out.println("Charge state or charge seconds type incorrect");
+             }
+          
+         
+          
+          
+          JsonNode charger_Data_ = objectMapper.readTree(Utils.getReported(chargers_ids.get(0)));
+			driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+
+			String charger_locked_state_ = charger_Data_.get("locked").asText();
+			System.out.println(
+					"Current Connector: " + chargers_ids.get(0) + " locked State : " + charger_locked_state_);
+
+          
+
+		if (charger_locked_state_.equals(initState)) {
+							System.out.println("locked state equals initState");
+						} else {
+								Utils.lockDevice(chargers_ids.get(0), true);
+		
+		
+		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+		
+		Thread.sleep(2000);
+		
+			
+						}
+		
+		if(isInteger(charge_state_variable2) ) {
+		 if(Integer.parseInt(charge_state_variable2)== 2 ) {
+	  			
+	  			System.out.println("the result should be Rejected:  Connector is already charging with another OCPP ID ");
+	  			
+	  		} else if(initState.equals("1")) {
+	  			
+	  			System.out.println("the result should be Rejected: Connector is Unvailable ");
+	  			
+	  		}else{
+	  			System.out.println("the result should be Accepted : the connector not connected with any OCPP Id and it will start to charging ");
+	  			
+	  		}
+		 } 
+		
+	          
+	
 		Operations operations = new Operations(driver);
 		operations.Getsubmitbutton().click();
+		
+		Thread.sleep(3000);
 
+		JsonNode charge_state_after = objectMapper.readTree(Utils.GetCurrentStateCharge(chargers_ids.get(0)));
+		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+		String charge_state_variable_after = charge_state_after.get("charge_state").toString();
+		String charge_seconds_after = charge_state_after.get("seconds").toString();
+		System.out.println("Data after Start click Remote Transaction: \n charge_state : " + charge_state_variable_after + "| seconds : "
+				+ charge_seconds_after);
+		
+		Thread.sleep(7000);
+		
 	}
 
 	@And("^I click remote stop transaction perform button$")
-	public void click_remote_stop_transaction_perform_button() throws InterruptedException {
+	public void click_remote_stop_transaction_perform_button()
+			throws InterruptedException, JsonMappingException, JsonProcessingException, IOException {
+
+		JsonNode charge_state = objectMapper.readTree(Utils.GetCurrentStateCharge(chargers_ids.get(0)));
+		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+
+		String charge_state_variable = charge_state.get("charge_state").toString();
+		String charge_seconds = charge_state.get("seconds").toString();
+		
+		String charge_state_variable2 = charge_state_variable.replaceAll("^\"|\"$", "");
+		String charge_seconds2 = charge_seconds.replaceAll("^\"|\"$", "");
+
+		System.out.println(
+				"Data before Stop Remote Transaction : \n charge_state : " + charge_state_variable + "| seconds : " + charge_seconds);
 
 		Operations operations = new Operations(driver);
 		operations.Getsubmitbutton().click();
+		
+		Thread.sleep(4000);
+
+		JsonNode charge_state_after = objectMapper.readTree(Utils.GetCurrentStateCharge(chargers_ids.get(0)));
+		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+		String charge_state_variable_after = charge_state_after.get("charge_state").toString();
+		String charge_seconds_after = charge_state_after.get("seconds").toString();
+   
+		String charge_state_variable_after2 = charge_state_variable_after.replaceAll("^\"|\"$", "");
+		String charge_seconds_after2 = charge_seconds_after.replaceAll("^\"|\"$", "");
+	 
+		 Thread.sleep(3000);
+
+		System.out.println("Data After Stop Remote Transaction : \n charge_state : " + charge_state_variable_after + "| seconds : "
+				+ charge_seconds_after);
+		
+		if(isInteger(charge_state_variable_after2) && isInteger(charge_seconds_after2))
+        {
+		
+		if (Integer.parseInt(charge_state_variable_after2) == 0 ) {
+			System.out.println("Resultt should be Accepted  : Stop Transaction Sucess");
+		}
+		
+		
+		}  else {
+			System.out.println("Result should be Rejected : Stop Transaction Failure");
+		}
+		
+
+	}
+
+	@Then("^User is on the task result Configuration$")
+	public void VerifyUserOnTaskResultConfiguration() throws InterruptedException {
+
+		WebDriverWait wait = new WebDriverWait(driver, 10);
+		Operations operations = new Operations(driver);
+		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+		Assert.assertTrue(operations.GetcpdExist());
+		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+
 	}
 
 	// Reset
@@ -792,6 +1124,7 @@ public class HomePageSteps {
 			new Select(operations.GetresetTypeId()).selectByValue("SOFT");
 		}
 	}
+	
 
 	@And("^I click get remote reset$")
 	public void get_reset() throws InterruptedException {
@@ -811,18 +1144,86 @@ public class HomePageSteps {
 
 	@And("^I click get Unlock Connector$")
 	public void get_Unlock_Connector() throws InterruptedException {
-
 		Operations operations = new Operations(driver);
 		operations.GetUnlockConnectorButton().click();
 	}
 
 	@And("^I click unlock connector perform button$")
-	public void click_unlock_connector_perform_button() throws InterruptedException {
+	public void click_unlock_connector_perform_button() throws InterruptedException, JsonMappingException, JsonProcessingException, IOException {
+
+		JsonNode charge_state = objectMapper.readTree(Utils.GetCurrentStateCharge(chargers_ids.get(0)));
+		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+
+		String charge_state_variable = charge_state.get("charge_state").toString();
+		String charge_seconds = charge_state.get("seconds").toString();
+		
+		String charge_state_variable2 = charge_state_variable.replaceAll("^\"|\"$", "");
+		String charge_seconds2 = charge_seconds.replaceAll("^\"|\"$", "");
+
+		System.out.println(
+				"Data before Unlock Connector : \n charge_state : " + charge_state_variable + "| seconds : " + charge_seconds);
 
 		Operations operations = new Operations(driver);
-
 		operations.Getsubmitbutton().click();
+		
+		Thread.sleep(4000);
+
+		JsonNode charge_state_after = objectMapper.readTree(Utils.GetCurrentStateCharge(chargers_ids.get(0)));
+		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+		String charge_state_variable_after = charge_state_after.get("charge_state").toString();
+		String charge_seconds_after = charge_state_after.get("seconds").toString();
+   
+		String charge_state_variable_after2 = charge_state_variable_after.replaceAll("^\"|\"$", "");
+		String charge_seconds_after2 = charge_seconds_after.replaceAll("^\"|\"$", "");
+	 
+		 Thread.sleep(3000);
+
+		System.out.println("Data After Unlock Connector : \n charge_state : " + charge_state_variable_after + "| seconds : "
+				+ charge_seconds_after);
+		
+		if(isInteger(charge_state_variable_after2) && isInteger(charge_seconds_after2))
+        {
+		
+		if (Integer.parseInt(charge_state_variable_after2) == 0 ) {
+			System.out.println("Resultt should be Unlocked  : Unlock Connector Sucess");
+		}
+		
+		
+		}  else {
+			System.out.println("Result should be Rejected : Unlock Connector Failure");
+		}
+		
+
 	}
+	
+	
+	@Then("^User is on the task result Unlock Transaction$")
+	public void VerifyUserOnTaskResultAfterUnlock() throws InterruptedException {
+
+		WebDriverWait wait = new WebDriverWait(driver, 10);
+		Operations operations = new Operations(driver);
+		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+		Assert.assertTrue(operations.GetcpdExist());
+		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+		
+		List<WebElement> rows = driver.findElements(By.xpath("/html/body/div[1]/div[3]/div/table/tbody/tr"));
+		System.out.println("Table size :" + rows.size());
+		for (WebElement row : rows) {
+			if (row.findElement(By.xpath("td[2]")).getText().equals("Unlocked")) {
+				
+				System.out.println("Correct rslt : The result is Unlocked");
+				
+				}else if (row.findElement(By.xpath("td[2]")).getText().equals("Rejected"))  {
+					
+					System.out.println("Incorrecte rslt : The result is Rejected");
+				}
+			}
+
+		Thread.sleep(5000);
+	}
+	
+	
+	
 
 	// Update Firmware
 
@@ -845,6 +1246,7 @@ public class HomePageSteps {
 	@And("^I click perform button Update Firmware$")
 	public void perform_Button_Update_Firmware() throws InterruptedException {
 
+		
 		Operations operations = new Operations(driver);
 		operations.GetperformUpdateFirmwareButton();
 	}
@@ -1171,14 +1573,13 @@ public class HomePageSteps {
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 
 		key = driver.findElement(By.xpath("/html/body/div[1]/div[3]/div/div/table/tbody/tr/td[1]")).getText();
-		Paramater_value = driver.findElement(By.xpath("/html/body/div[1]/div[3]/div/div/table/tbody/tr/td[2]")).getText();
+		Paramater_value = driver.findElement(By.xpath("/html/body/div[1]/div[3]/div/div/table/tbody/tr/td[2]"))
+				.getText();
 		read_only = driver.findElement(By.xpath("/html/body/div[1]/div[3]/div/div/table/tbody/tr/td[3]")).getText();
 
 		if (read_only.equals("true")) {
 			System.out.println(key + " is read-only it wont be changed !");
 		}
-
-		
 
 	}
 
@@ -1188,21 +1589,21 @@ public class HomePageSteps {
 		Operations operations = new Operations(driver);
 		operations.GetGetDetailsConf().click();
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
-		
 
-		//WebElement key_new = driver.findElement(By.xpath("/html/body/div[1]/div[3]/div/div/table/tbody/tr/td[1]"));
-		String value_new = driver.findElement(By.xpath("/html/body/div[1]/div[3]/div/div/table/tbody/tr/td[2]")).getText();
-		//WebElement read_only_new = driver
-			//	.findElement(By.xpath("/html/body/div[1]/div[3]/div/div/table/tbody/tr/td[3]"));
+		
+		String value_new = driver.findElement(By.xpath("/html/body/div[1]/div[3]/div/div/table/tbody/tr/td[2]"))
+				.getText();
+		
 
 		if (value_new.equals(Paramater_value)) {
 			System.out.println(key + " Value is not changed !");
 		} else {
-			System.out.println(key + " Value is changed !  Old value : " + Paramater_value
-					+ " | New Value : " + value_new);
+			System.out.println(
+					key + " Value is changed !  Old value : " + Paramater_value + " | New Value : " + value_new);
 		}
-		
-		driver.close(); 
+
+		driver.close();
+
 	}
 
 	// Get Local List Version
@@ -1221,8 +1622,7 @@ public class HomePageSteps {
 		Operations operations = new Operations(driver);
 		operations.Getsubmitbutton().click();
 		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
-
-	}
+}
 
 	// set local list version
 
@@ -1252,6 +1652,8 @@ public class HomePageSteps {
 		}
 
 	}
+	
+	
 
 	@And("^I select Add Update List '(.*)'$")
 	public void Select_Add_Update_list(String addUpdaterList) throws InterruptedException {
@@ -1323,7 +1725,6 @@ public class HomePageSteps {
 
 	}
 	
-
 	@And("^I click send empty list$")
 	public void send_Empty_List() throws InterruptedException {
 
@@ -1431,7 +1832,7 @@ public class HomePageSteps {
 		Operations operations = new Operations(driver);
 		operations.Getsubmitbutton().click();
 		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
-
+		
 	}
 
 	// Clear Charging Profile

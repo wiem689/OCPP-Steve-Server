@@ -58,7 +58,7 @@ public class Data_Management {
 	
 	By selectChargeBoxId = By.xpath("//*[@id=\"overview\"]/table/tbody/tr[4]/td[1]/a");
 		
-		
+	By ConnectorStatusButton = By.xpath("/html/body/div[1]/div[3]/div/div/table/tbody/tr[3]/td[2]/a");
 	
 	//add new occptag button
 	
@@ -310,6 +310,12 @@ public class Data_Management {
 	public WebElement GetblockedId(){
 		return driver.findElement(blockedId);
 	}
+	
+	public WebElement GetConnectorStatusButton(){
+		return driver.findElement(ConnectorStatusButton);
+	}
+	
+	
 	
 	//add new occp form
 	

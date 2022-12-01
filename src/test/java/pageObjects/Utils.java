@@ -11,7 +11,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class Utils {
 
-	static String host = "https://staging.v2c.cloud/v2cservice/oauth/token";
+	static String host = "https://v2c.cloud/v2cservice/oauth/token";
 	static String username = "admin@v2c.com";
 	static String password = "V2CBox2020";
 	static String token = "Basic YWRtaW5AdjJjLmNvbToxMjM0";
@@ -29,8 +29,8 @@ public class Utils {
 	    con.setDoOutput(true);
 
 	    int responseCode = con.getResponseCode();
-	    //System.out.println("POST Response Code :: " + responseCode);
-
+	    System.out.println("POST Response Code :: " + responseCode);
+         
 	    if (responseCode == HttpURLConnection.HTTP_OK) { //success
 	        BufferedReader in = new BufferedReader(new InputStreamReader(
 	                con.getInputStream()));
@@ -45,8 +45,7 @@ public class Utils {
 	        // print result
 	       // System.out.println(response.toString());
 
-	       
-	        ObjectMapper objectMapper = new ObjectMapper();
+	       ObjectMapper objectMapper = new ObjectMapper();
 	        JsonNode Data = objectMapper.readTree(response.toString());
 	        String token = Data.get("access_token").asText();
 	        //System.out.println(token);
@@ -77,8 +76,7 @@ public class Utils {
 	        int responseCode = con.getResponseCode();
 	        System.out.println("GET Response Code :: " + responseCode);
 
-              
-
+          
 	        try {
 	            BufferedReader br = new BufferedReader(
 	                    new InputStreamReader(con.getInputStream(), "utf-8"));
@@ -154,6 +152,44 @@ public class Utils {
 
 		return response.toString();
 	}
+     
+	public static String GetCurrentStateCharge(String device_id) throws IOException {
+	    String token = getToken();
+
+	    if(token.equals(""))
+	    {
+	        return "Error obtaining Token";
+	    }else
+	    {
+	        String url = "https://v2c.cloud/v2cservice/api/v1/device/" + device_id + "/currentstatecharge";
+	        URL obj = new URL(url);
+	        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+
+	        con.setRequestMethod("POST");
+	        con.setRequestProperty("Authorization","Bearer " + token);
+	        con.setRequestProperty("Content-type","application/json");
+
+	        con.setDoOutput(false);
+            
+	        int responseCode = con.getResponseCode();
+	        System.out.println("GET Response Code :: " + responseCode);
+
+           try {
+	            BufferedReader br = new BufferedReader(
+	                    new InputStreamReader(con.getInputStream(), "utf-8"));
+	            StringBuilder response = new StringBuilder();
+	            String responseLine = null;
+	            while ((responseLine = br.readLine()) != null) {
+	                response.append(responseLine.trim());
+	            }
+	            return response.toString();
+	        } catch (IOException e) {
+	            e.printStackTrace();
+	            return "Error in currentstatecharge";
+	        }
+	    }
+
+	}
 	
 	
 	
@@ -204,16 +240,15 @@ public class Utils {
 	
 
 	public static void main(String[] args) throws IOException {
-
-		
-		 
-	  System.out.println(lockDevice(device_id,true));
-	  System.out.println(lockDevice(device_id,false));
+ 
+	  //System.out.println(lockDevice(device_id,true));
+	 // System.out.println(lockDevice(device_id,false));
 	    //System.out.println(getConnected(device_id));
 	    
 	    //System.out.println(getReported("NWAIB8V")); 
-	  System.out.println(getReported(device_id));
+	 // System.out.println(getReported(device_id));
+	 
 	
-	  
+	  System.out.println(GetCurrentStateCharge("JYLP6Y")); 
 	}
 }
