@@ -132,7 +132,7 @@ As a user, I should make some operations
   
   | Key| Value |
   | ConnectionTimeOut | 118 |   
-  | ConnectionTimeOut | 150000 |
+  | ConnectionTimeOut | 30 |
   | ConnectionTimeOut | hahahah |    
      
     
