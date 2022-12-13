@@ -65,6 +65,10 @@ public class Operations {
 		
 		By res = By.className("res");
 		
+		//clear cache 
+		
+		By clearCacheButton = By.xpath("/html/body/div[1]/div[3]/div/div[1]/ul/li[3]/a");
+		
 		
 		//remote start transaction 
 		
@@ -282,6 +286,12 @@ public class Operations {
 		
 		public Boolean GetresExist(){
 			return !driver.findElements(res).isEmpty();
+		}
+		
+		//Clear Cache 
+		
+		public WebElement GetclearCacheButton(){
+			return driver.findElement(clearCacheButton);
 		}
 		
 		// getters remote start transaction

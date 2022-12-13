@@ -13,7 +13,7 @@ Description: Automation test for one Connector
  
 
  
-    Scenario Outline: Operations when we have two Connectors
+    Scenario Outline: Operations when we have One Connectors
      And I click on data management charge points button
 	   And I select 'wiem_pole_real' 
      And I click on operations V1.6 button

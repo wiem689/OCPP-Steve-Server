@@ -161,6 +161,7 @@ public class HomePageSteps {
 		actions.moveToElement(operations.GetaOperationButton1());
 		actions.perform();
 		operations.GetaOperationButton().click();
+		Thread.sleep(3000);
 
 	}
 	
@@ -184,6 +185,8 @@ public class HomePageSteps {
 			new Select(operations.GetchargePointSelectListId()).selectByValue("JSON;wiem_trydan;-");
 
 		}
+		
+		Thread.sleep(3000);
 
 	}
 
@@ -219,6 +222,8 @@ public class HomePageSteps {
 		} else if (availtype.equalsIgnoreCase("OPERATIVE")) {
 			new Select(operations.GetavailType()).selectByValue("OPERATIVE");
 		}
+		
+		Thread.sleep(4000);
 	}
 
 	@And("^I click perform button change availability with Initial State as '(.*)'$")
@@ -735,6 +740,8 @@ public class HomePageSteps {
 				System.out.println("Incorrecte rslt : The result is Rejected");
 			}
 		}
+		
+		Thread.sleep(3000);
 
 	}
 
@@ -764,6 +771,56 @@ public class HomePageSteps {
 	}
 
 //**********************************************************************************************
+	
+	//Clear Cache 
+	
+	@And("^I click Clear Cache$")
+	public void clear_Cache() throws InterruptedException {
+
+		Operations operations = new Operations(driver);
+		operations.GetclearCacheButton().click();
+	}
+	
+	@And("^I click perform button Clear Cache$")
+	public void click_perform_button_Clear_Cache() throws InterruptedException {
+
+		Operations operations = new Operations(driver);
+		operations.Getsubmitbutton().click();
+		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+
+	}
+	
+	@Then("^User is on the task result Clear Cache$")
+	public void VerifyUserOnTaskResultClearCache() throws InterruptedException {
+
+		WebDriverWait wait = new WebDriverWait(driver, 10);
+		Operations operations = new Operations(driver);
+		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+		Assert.assertTrue(operations.GetcpdExist());
+		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+		
+		Thread.sleep(9000);
+
+WebElement rows = driver.findElement(By.xpath("/html/body/div[1]/div[3]/div/table/tbody/tr/td[2]"));
+		
+		System.out.println("Clear Cache Result :"+rows.getText());
+		
+			if (rows.getText().equals("Accepted")) {
+
+				System.out.println("Correct result : Clear Cache is Accepted ");
+
+			} else {
+
+				System.out.println(" Incorrect result: there is Something Wrong  The Clear Cache is Rejected  "); 
+				
+			}
+		Thread.sleep(5000);
+		
+
+
+	}
+
+	
 	// Get Diagnostics
 
 	@And("^I enter Location '(.*)'$")
@@ -1199,6 +1256,36 @@ public class HomePageSteps {
 
 		Operations operations = new Operations(driver);
 		operations.Getsubmitbutton().click();
+	}
+	
+	@Then("^User is on the task result Reset$")
+	public void VerifyUserOnTaskResultReset() throws InterruptedException {
+
+		WebDriverWait wait = new WebDriverWait(driver, 10);
+		Operations operations = new Operations(driver);
+		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+		Assert.assertTrue(operations.GetcpdExist());
+		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+		
+		Thread.sleep(20000);
+
+WebElement rows = driver.findElement(By.xpath("/html/body/div[1]/div[3]/div/table/tbody/tr/td[2]"));
+		
+		System.out.println("Reset Result :"+rows.getText());
+		
+			if (rows.getText().equals("Accepted")) {
+
+				System.out.println("Correct result : Reset is Accepted ");
+
+			} else {
+
+				System.out.println(" Incorrect result: there is Something Wrong  Reset is Rejected  "); 
+				
+			}
+		Thread.sleep(9000);
+		
+              driver.close();
+
 	}
 
 	// unlock connector
@@ -1752,7 +1839,6 @@ public class HomePageSteps {
 
 		}
 		if (addUpdaterList.equalsIgnoreCase("7250939c52dc4d7cb59c")) {
-			new Select(operations.GetaddUpdateListId()).selectByValue("7250939c52dc4d7cb59c");
 
 		}
 		if (addUpdaterList.equalsIgnoreCase("9c756eda")) {
@@ -2016,8 +2102,6 @@ public class HomePageSteps {
 
 		Thread.sleep(3000);
 		
-		
-
 	} 
 	
 	@Then("^I click details button get Composite Schedule$")
@@ -2346,6 +2430,8 @@ public class HomePageSteps {
 		actions.moveToElement(dataManagement.GetmanagementButton1());
 		actions.perform();
 		dataManagement.GetmanagementButton().click();
+		
+			Thread.sleep(3000);
 
 	}
 
@@ -2379,7 +2465,7 @@ public class HomePageSteps {
 		}
 
 		driver.manage().timeouts().implicitlyWait(200, TimeUnit.MILLISECONDS);
-
+		Thread.sleep(3000);
 	}
 
 	@And("^I enter ChargeBox ID '(.*)'$")
