@@ -10,7 +10,7 @@ public class Utils {
 
 	static String host = "https://v2c.cloud/v2cservice/oauth/token";
 	static String username = "admin@v2c.com";
-	static String password = "V2CBox2020";
+	static String password = "V2CBox2022@";
 	static String token = "Basic YWRtaW5AdjJjLmNvbToxMjM0";
 	// static String device_id = "NWAIB8V";
 	static String device_id = "QY377MV";

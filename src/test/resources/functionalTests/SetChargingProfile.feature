@@ -10,7 +10,7 @@ Description: Clear and Set Charging Profile
 	And   I click singnin button
   Then the user is connected
 
- Scenario Outline: Operations when User on Clear and Set Charging Profile  
+ Scenario Outline: Operations when User on Clear, Set and Get Charging Profile  
  
     And I click on operations V1.6 button
     And I click Clear Charging Profile
@@ -35,6 +35,9 @@ Description: Clear and Set Charging Profile
     And I click perform button get composite schedule
     And User is on the task result get composite schedule
     Then I click details button get Composite Schedule
+    And I click on data management Charging Profiles button
+    And I select Charging Profile 'WIEM TEST'
+    
     
     
     Examples:

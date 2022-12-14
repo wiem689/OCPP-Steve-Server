@@ -16,14 +16,14 @@ As a user, I should make some operations
   Scenario Outline: Operations when User In Get Configuration  Boolean Keys 
     And I click on operations V1.6 button
     And I click get configuration
-    And I select charge point 'wiem_pole'
+    And I select charge point 'wiem_pole_real'
     And I select parameters '<Key>'
     And I click perform button get Configuration
     Then User is on the task result Configuration
     And I click details button get Configuration
     And I click on operations V1.6 button
     And I click change configuration
-    And I select charge point 'wiem_pole'
+    And I select charge point 'wiem_pole_real'
     And I select Key Type 'Predefined'
     And I select Configuration Key '<Key>'  
     And I enter Value '<Value>' 
@@ -31,7 +31,7 @@ As a user, I should make some operations
     Then User is on the task result Configuration
     And I click on operations V1.6 button
     And I click get configuration
-    And I select charge point 'wiem_pole'
+    And I select charge point 'wiem_pole_real'
     And I select parameters '<Key>'
     And I click perform button get Configuration
     Then User is on the task result Configuration

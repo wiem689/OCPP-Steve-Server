@@ -13,7 +13,7 @@ import managers.FileReaderManager;
 
 
 @RunWith(Cucumber.class)
-@CucumberOptions(features = "src/test/resources/functionalTests/ChangeAvailabilityOneConnector.feature", glue = { "stepDefinitions" },
+@CucumberOptions(features = "src/test/resources/functionalTests/ClearAndGetChargingProfile.feature", glue = { "stepDefinitions" },
 plugin = {"com.cucumber.listener.ExtentCucumberFormatter:target/cucumber-reports/report.html"},
 monochrome = true)
 
@@ -29,3 +29,5 @@ public class TestRunner {
 	    Reporter.setSystemInfo("Java Version", "1.8.0_151");
 	}
 }
+
+

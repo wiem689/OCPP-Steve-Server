@@ -29,15 +29,15 @@ Description: Send and Get Local List Version
     Examples:
      
      | ChargePoint | integer | Type | UpdateList |
-     | wiem_pole_real | 10 | FULL |  |
-     | wiem_pole_real | 18 | DIFFERENTIAL | 7250939c52dc4d7cb59c |
-     | wiem_pole_real | 34 | DIFFERENTIAL | 5c5e6ada |
-     | wiem_pole_real | 23 | DIFFERENTIAL | 040f0032 |
-     | wiem_pole_real | 12 | DIFFERENTIAL | 4b1f32bb |
-     | wiem_pole_real | 67 | DIFFERENTIAL | 5392461f |
-     | wiem_pole_real | 51 | DIFFERENTIAL | 9c756eda |
-     | wiem_pole_real | 22 | DIFFERENTIAL | A0-00-00-00 |
-     | wiem_pole_real | 28 | DIFFERENTIAL | wiem |
+     | wiem_pole_real | 61 | FULL |  |
+     | wiem_pole_real | 10 | DIFFERENTIAL | 7250939c52dc4d7cb59c |
+     | wiem_pole_real | 39 | DIFFERENTIAL | 5c5e6ada |
+     | wiem_pole_real | 21 | DIFFERENTIAL | 040f0032 |
+     | wiem_pole_real | 11 | DIFFERENTIAL | 4b1f32bb |
+     | wiem_pole_real | 60 | DIFFERENTIAL | 5392461f |
+     | wiem_pole_real | 59 | DIFFERENTIAL | 9c756eda |
+     | wiem_pole_real | 21 | DIFFERENTIAL | A0-00-00-00 |
+     | wiem_pole_real | 98 | DIFFERENTIAL | wiem |
      
     
      

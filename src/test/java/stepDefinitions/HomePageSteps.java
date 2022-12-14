@@ -223,7 +223,7 @@ public class HomePageSteps {
 			new Select(operations.GetavailType()).selectByValue("OPERATIVE");
 		}
 		
-		Thread.sleep(4000);
+		
 	}
 
 	@And("^I click perform button change availability with Initial State as '(.*)'$")
@@ -1753,7 +1753,7 @@ WebElement rows = driver.findElement(By.xpath("/html/body/div[1]/div[3]/div/tabl
 		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 		Assert.assertTrue(operations.GetcpdExist());
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
-		
+		Thread.sleep(9000);
 		
 		WebElement result = driver.findElement(By.xpath("/html/body/div[1]/div[3]/div/table/tbody/tr/td[2]"));
 		
@@ -1778,7 +1778,7 @@ WebElement rows = driver.findElement(By.xpath("/html/body/div[1]/div[3]/div/tabl
 
 		Operations operations = new Operations(driver);
 		operations.GetLocalListVersionButton().click();
-
+    Thread.sleep(2000);
 	}
 
 	@And("^I click perform button get local list version$")
@@ -1796,6 +1796,8 @@ WebElement rows = driver.findElement(By.xpath("/html/body/div[1]/div[3]/div/tabl
 
 		Operations operations = new Operations(driver);
 		operations.SetLocalListVersionButton().click();
+		
+		Thread.sleep(2000);
 
 	}
 
@@ -1815,6 +1817,8 @@ WebElement rows = driver.findElement(By.xpath("/html/body/div[1]/div[3]/div/tabl
 		} else if (updateType.equalsIgnoreCase("FULL")) {
 			new Select(operations.GetupdateTypeId()).selectByValue("FULL");
 		}
+		
+		Thread.sleep(3000);
 
 	}
 
@@ -1839,6 +1843,7 @@ WebElement rows = driver.findElement(By.xpath("/html/body/div[1]/div[3]/div/tabl
 
 		}
 		if (addUpdaterList.equalsIgnoreCase("7250939c52dc4d7cb59c")) {
+			new Select(operations.GetaddUpdateListId()).selectByValue("7250939c52dc4d7cb59c");
 
 		}
 		if (addUpdaterList.equalsIgnoreCase("9c756eda")) {
@@ -1853,6 +1858,7 @@ WebElement rows = driver.findElement(By.xpath("/html/body/div[1]/div[3]/div/tabl
 			new Select(operations.GetaddUpdateListId()).selectByValue("wiem");
 
 		}
+		Thread.sleep(2000);
 
 	}
 
@@ -1893,6 +1899,8 @@ WebElement rows = driver.findElement(By.xpath("/html/body/div[1]/div[3]/div/tabl
 
 		}
 		
+		Thread.sleep(2000);
+		
 
 	}
 
@@ -1911,6 +1919,8 @@ WebElement rows = driver.findElement(By.xpath("/html/body/div[1]/div[3]/div/tabl
 		Operations operations = new Operations(driver);
 		operations.Getsubmitbutton().click();
 		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+		
+		Thread.sleep(3000);
 
 	}
 
@@ -1923,7 +1933,7 @@ WebElement rows = driver.findElement(By.xpath("/html/body/div[1]/div[3]/div/tabl
 		Assert.assertTrue(operations.GetcpdExist());
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 		
-		Thread.sleep(9000);
+		Thread.sleep(15000);
 
 		WebElement rows = driver.findElement(By.xpath("/html/body/div[1]/div[3]/div/table/tbody/tr/td[2]"));
 		
@@ -1939,7 +1949,7 @@ WebElement rows = driver.findElement(By.xpath("/html/body/div[1]/div[3]/div/tabl
 			}
 		
 
-		Thread.sleep(3000);
+		Thread.sleep(4000);
 
 	} 
 
@@ -2110,6 +2120,42 @@ WebElement rows = driver.findElement(By.xpath("/html/body/div[1]/div[3]/div/tabl
 		Operations operations = new Operations(driver);
 		operations.GetGetDetailsConf().click();
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+		
+		WebElement rows2 = driver.findElement(By.xpath("/html/body/div[1]/div[3]/div/div/table/tbody/tr/td[2]"));
+		System.out.println("Get Composite Schedule:"+rows2.getText());
+		
+if (rows2.getText().equals("32")) {
+			
+			System.out.println("Correct result : Emty Charging Profile so we are on the Power Limit");
+		}
+		else {
+			
+			System.out.println("incorrect result ");
+			
+		}
+	}
+	
+	
+	@And("^I select Charging Profile '(.*)'$")
+	public void selectChargingPofile(String description) throws InterruptedException {
+
+		List<WebElement> rows = driver.findElements(By.xpath("//*[@id=\"overview\"]/table/tbody/tr"));
+		
+		// Table Size
+		System.out.println("Table size :" + rows.size());
+		// Table Third Column : Description
+		
+		
+		for (WebElement row : rows) {
+			if (row.findElement(By.xpath("td[3]")).getText().equals(description)) { 
+				//device_id = description;
+				row.findElement(By.xpath("td[1]/a")).click();
+				driver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
+			
+			}
+			
+		}
+		Thread.sleep(3000);
 	}
 
 	// Clear Charging Profile

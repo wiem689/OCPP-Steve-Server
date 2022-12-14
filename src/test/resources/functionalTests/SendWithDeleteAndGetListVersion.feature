@@ -29,8 +29,8 @@ Description: Send With Delete  and Get Local List Version
     Examples:
      
      | ChargePoint | integer | Type | DeleteList |
-     | wiem_pole_real | 10 | DIFFERENTIAL | 7250939c52dc4d7cb59c |
-     | wiem_pole_real | 10 | DIFFERENTIAL | 5392461f |
+     | wiem_pole_real | 12 | DIFFERENTIAL | 7250939c52dc4d7cb59c |
+     | wiem_pole_real | 15 | DIFFERENTIAL | 5392461f |
  
     
     
