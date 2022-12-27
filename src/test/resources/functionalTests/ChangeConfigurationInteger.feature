@@ -42,15 +42,15 @@ As a user, I should make some operations
    Examples: Tests for Integer Keys TransactionMessageAttempts 
   
   | Key| Value |
-  | TransactionMessageAttempts | 21 |   
-  | TransactionMessageAttempts | 36 |
+  | TransactionMessageAttempts | 20 |   
+  | TransactionMessageAttempts | 37 |
   | TransactionMessageAttempts | hahahah |  
   
   Examples: Tests for Integer Keys ResetRetries 
   
   | Key| Value |
-  | ResetRetries | 24 |   
-  | ResetRetries | 37 |
+  | ResetRetries | 25 |   
+  | ResetRetries | 36 |
   | ResetRetries | hahahah |  
   
   
@@ -58,8 +58,8 @@ As a user, I should make some operations
  Examples: Tests for Integer Keys BlinkRepeat
   
   | Key| Value |
-  | BlinkRepeat | 4 |   
-  | BlinkRepeat | 40 |
+  | BlinkRepeat | 3 |   
+  | BlinkRepeat | 41 |
   | BlinkRepeat | hahahah |  
        
     
@@ -67,74 +67,27 @@ As a user, I should make some operations
  Examples: Tests for Integer Keys ClockAlignedDataInterval
   
   | Key| Value |
-  | ClockAlignedDataInterval | 40000 |   
-  | ClockAlignedDataInterval | 94000 |
+  | ClockAlignedDataInterval | 41000 |   
+  | ClockAlignedDataInterval | 93000 |
   | ClockAlignedDataInterval | hahahah |  
           
    Examples: Tests for Integer Keys HeartbeatInterval
   
   | Key| Value |
-  | HeartbeatInterval | 50000 |   
-  | HeartbeatInterval | 93000 |
+  | HeartbeatInterval | 51000 |   
+  | HeartbeatInterval | 92000 |
   | HeartbeatInterval | hahahah |   
     
     
     Examples: Tests for Integer Keys MeterValueSampleInterval
   
   | Key| Value |
-  | MeterValueSampleInterval | 60000 |   
-  | MeterValueSampleInterval | 92000 |
+  | MeterValueSampleInterval | 61000 |   
+  | MeterValueSampleInterval | 93000 |
   | MeterValueSampleInterval | hahahah | 
     
     
-   Examples: Tests for Integer Keys MinimumStatusDuration
-  
-  | Key| Value |
-  | MinimumStatusDuration | 70000 |   
-  | MinimumStatusDuration | 91000 |
-  | MinimumStatusDuration | hahahah |   
-    
-    
-    
-  Examples: Tests for Integer Keys TransactionMessageRetryInterval
-  
-  | Key| Value |
-  | TransactionMessageRetryInterval | 66000 |   
-  | TransactionMessageRetryInterval | 99000 |
-  | TransactionMessageRetryInterval | hahahah |  
-  
-  Examples: Tests for Integer Keys WebSocketPingInterval
-  
-  | Key| Value |
-  | WebSocketPingInterval | 44000 |   
-  | WebSocketPingInterval | 98500 |
-  | WebSocketPingInterval | hahahah |    
-    
-    
-  Examples: Tests for Integer Keys MaxEnergyOnInvalidId
-  
-  | Key| Value |
-  | MaxEnergyOnInvalidId | 28000 |   
-  | MaxEnergyOnInvalidId | 100000 |
-  | MaxEnergyOnInvalidId | hahahah |  
-    
-    
-    
-   Examples: Tests for Integer Keys LightIntensity
-  
-  | Key| Value |
-  | LightIntensity | 98 |   
-  | LightIntensity | 900000 |
-  | LightIntensity | hahahah |    
-    
-    
-    Examples: Tests for Integer Keys ConnectionTimeOut
-  
-  | Key| Value |
-  | ConnectionTimeOut | 118 |   
-  | ConnectionTimeOut | 30 |
-  | ConnectionTimeOut | hahahah |    
-     
+
     
     
     

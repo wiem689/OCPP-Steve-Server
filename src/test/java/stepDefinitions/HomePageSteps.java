@@ -512,6 +512,7 @@ public class HomePageSteps {
 		} else if (keytype.equalsIgnoreCase("Custom")) {
 			new Select(operations.GetkeyTypeId()).selectByValue("CUSTOM");
 		}
+		Thread.sleep(2000);
 
 	}
 
@@ -574,6 +575,7 @@ public class HomePageSteps {
 		}
 
 		// driver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
+		Thread.sleep(2000);
 
 	}
 
@@ -691,6 +693,7 @@ public class HomePageSteps {
 
 		Operations operations = new Operations(driver);
 		operations.GetvalueId().sendKeys(value);
+		Thread.sleep(2000);
 
 	}
        
@@ -708,6 +711,7 @@ public class HomePageSteps {
 
 		Operations operations = new Operations(driver);
 		operations.GetchangeConfigButton().click();
+		Thread.sleep(2000);
 	}
 
 	@And("^I click perform button change configuration$")
@@ -1228,6 +1232,7 @@ WebElement rows = driver.findElement(By.xpath("/html/body/div[1]/div[3]/div/tabl
 		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 		Assert.assertTrue(operations.GetcpdExist());
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+		Thread.sleep(2000);
 
 	}
 
@@ -1489,6 +1494,8 @@ WebElement rows = driver.findElement(By.xpath("/html/body/div[1]/div[3]/div/tabl
 
 		Operations operations = new Operations(driver);
 		operations.GetConfigurationButton().click();
+		Thread.sleep(2000);
+		
 	}
 
 	@And("^I click all parameters$")
@@ -1685,6 +1692,7 @@ WebElement rows = driver.findElement(By.xpath("/html/body/div[1]/div[3]/div/tabl
 			new Select(operations.GetconfKeyListId()).selectByValue("WebSocketPingInterval");
 
 		}
+		Thread.sleep(2000);
 
 		// driver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
 
@@ -1721,6 +1729,7 @@ WebElement rows = driver.findElement(By.xpath("/html/body/div[1]/div[3]/div/tabl
 		if (read_only.equals("true")) {
 			System.out.println(key + " is read-only it wont be changed !");
 		}
+		Thread.sleep(2000);
 
 	}
 
@@ -1794,12 +1803,14 @@ WebElement rows = driver.findElement(By.xpath("/html/body/div[1]/div[3]/div/tabl
 	@And("^I click set Local List Version$")
 	public void set_Local_List() throws InterruptedException {
 
+		     
 		Operations operations = new Operations(driver);
 		operations.SetLocalListVersionButton().click();
 		
 		Thread.sleep(2000);
 
 	}
+	
 
 	@And("^I Enter List Version '(.*)'$")
 	public void Select_List_Version(String ID) throws InterruptedException {
@@ -2122,15 +2133,16 @@ WebElement rows = driver.findElement(By.xpath("/html/body/div[1]/div[3]/div/tabl
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 		
 		WebElement rows2 = driver.findElement(By.xpath("/html/body/div[1]/div[3]/div/div/table/tbody/tr/td[2]"));
-		System.out.println("Get Composite Schedule:"+rows2.getText());
+		
 		
 if (rows2.getText().equals("32")) {
 			
 			System.out.println("Correct result : Emty Charging Profile so we are on the Power Limit");
+			System.out.println("Get Composite Schedule:"+rows2.getText());
 		}
 		else {
 			
-			System.out.println("incorrect result ");
+			System.out.println("Composite Schedule with Set Charging Profile");
 			
 		}
 	}
@@ -2148,9 +2160,10 @@ if (rows2.getText().equals("32")) {
 		
 		for (WebElement row : rows) {
 			if (row.findElement(By.xpath("td[3]")).getText().equals(description)) { 
-				//device_id = description;
+	
 				row.findElement(By.xpath("td[1]/a")).click();
 				driver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
+		
 			
 			}
 			
@@ -2191,6 +2204,11 @@ if (rows2.getText().equals("32")) {
 			new Select(operations.GetchargingProfilePkId()).selectByValue("3");
 
 		}
+		if (chargingProfile.equalsIgnoreCase("4 (WIEM TEST2)")) {
+			new Select(operations.GetchargingProfilePkId()).selectByValue("4");
+
+		}
+	
 		
 	}
 
@@ -2211,6 +2229,8 @@ if (rows2.getText().equals("32")) {
 			new Select(operations.GetchargingProfilePurposeId()).selectByValue("TX_PROFILE");
 
 		}
+		
+		
 
 	}
 
@@ -2227,6 +2247,7 @@ if (rows2.getText().equals("32")) {
 		Operations operations = new Operations(driver);
 		operations.Getsubmitbutton().click();
 		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+		Thread.sleep(2000);
 
 	}
 	

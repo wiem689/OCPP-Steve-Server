@@ -19,7 +19,8 @@ Description: Reset
     And I click reset perform button
     Then User is on the task result Reset
     
-        Examples:
+     
+     Examples:
      
      | type | 
      | HARD | 

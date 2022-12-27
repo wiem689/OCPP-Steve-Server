@@ -13,7 +13,7 @@ import managers.FileReaderManager;
 
 
 @RunWith(Cucumber.class)
-@CucumberOptions(features = "src/test/resources/functionalTests/ClearAndGetChargingProfile.feature", glue = { "stepDefinitions" },
+@CucumberOptions(features = "src/test/resources/functionalTests/SetChargingProfile.feature", glue = { "stepDefinitions" },
 plugin = {"com.cucumber.listener.ExtentCucumberFormatter:target/cucumber-reports/report.html"},
 monochrome = true)
 
